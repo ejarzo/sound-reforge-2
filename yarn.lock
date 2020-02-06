@@ -8338,6 +8338,11 @@ react-scripts@3.3.1:
   optionalDependencies:
     fsevents "2.1.2"
 
+react-speech-kit@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-speech-kit/-/react-speech-kit-2.0.3.tgz#774f17faf2f845ba20e73a409dcbd9a5dc1f5c0b"
+  integrity sha512-LE7N55JMmEOpiCWXYg3L48otC4SRRH4h6UJAA/PLAo3UimPg8K1jMbkz2ZO+rP6oKe74GbWQfo5aQdy+U9br+w==
+
 react@^16.12.0:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"

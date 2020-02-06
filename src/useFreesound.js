@@ -12,11 +12,14 @@ export const useFreesound = query => {
     imageUrl: '',
     tags: [],
   });
+
   const [activeFreesoundId, setActiveFreesoundId] = useState(null);
 
   // search for sound
   const { data: searchData, error: searchError } = useSWR(
-    `${BASE_URL}/search/text/?token=${REACT_APP_FREESOUND_API_KEY}&format=json&query=${query}`,
+    query
+      ? `${BASE_URL}/search/text/?token=${REACT_APP_FREESOUND_API_KEY}&format=json&query=${query}`
+      : null,
     fetcher
   );
 

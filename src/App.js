@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Rita from 'rita';
 import Tone from 'tone';
+import { useSpeechSynthesis } from 'react-speech-kit';
 
 import './App.css';
 import { useFreesound } from './useFreesound';
@@ -24,16 +25,28 @@ const masterOutput = new Tone.Gain(0.8).receive('masterOutput');
 masterOutput.chain(masterCompressor, masterLimiter, Tone.Master);
 
 function App() {
-  const [query, setQuery] = useState(Rita.randomWord());
+  const [query, setQuery] = useState('');
   const { soundUrl, imageUrl, tags } = useFreesound(query);
+  const phonemes = query && Rita.getPhonemes(query);
+  const rhymes = query && Rita.rhymes(query);
+
+  const { speak } = useSpeechSynthesis({
+    onEnd: () => {
+      console.log('END');
+      const rhyme = rhymes[Math.floor(Math.random() * rhymes.length)];
+      setQuery(rhyme);
+    },
+  });
 
   useEffect(() => {
     if (!soundUrl) return;
     player.load(soundUrl);
   }, [soundUrl]);
 
-  const phonemes = Rita.getPhonemes(query);
-  const rhymes = Rita.rhymes(query);
+  useEffect(() => {
+    // speak({ text: query });
+    speak({ text: tags.join(', ') });
+  }, [tags]);
 
   const handleClick = () => {
     const rhyme = rhymes[Math.floor(Math.random() * rhymes.length)];
@@ -64,9 +77,9 @@ function App() {
         </div>
         query: {query}
         <br />
-        rhymes: {rhymes.join(',')}
+        rhymes: {rhymes && rhymes.join(',')}
         <br />
-        tags: {tags.join(',')}
+        tags: {tags && tags.join(',')}
       </div>
       <div
         onClick={handleClick}
@@ -82,7 +95,7 @@ function App() {
           zIndex: 2,
         }}
       >
-        {phonemes.replace(/-/g, '')}
+        {phonemes && phonemes.replace(/-/g, '')}
       </div>
       <img
         style={{ display: 'block', height: '100%', width: '100%' }}
