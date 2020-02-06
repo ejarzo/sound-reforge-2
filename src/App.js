@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import Rita from 'rita';
 import { useSpeechSynthesis } from 'react-speech-kit';
 
