@@ -1,28 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Rita from 'rita';
-import Tone from 'tone';
 import { useSpeechSynthesis } from 'react-speech-kit';
 
 import './App.css';
 import { useFreesound } from './useFreesound';
-
-const player = new Tone.Player({ autostart: true });
-player.send('masterOutput');
-
-const masterCompressor = new Tone.Compressor({
-  ratio: 16,
-  threshold: -30,
-  release: 0.25,
-  attack: 0.003,
-  knee: 30,
-});
-
-const masterLimiter = new Tone.Limiter(-3);
-const masterReverb = new Tone.Reverb(0.8);
-const masterDelay = new Tone.Freeverb();
-const masterOutput = new Tone.Gain(0.8).receive('masterOutput');
-
-masterOutput.chain(masterCompressor, masterLimiter, Tone.Master);
+import { PLAYER } from './utils/sound';
 
 function App() {
   const [query, setQuery] = useState('');
@@ -40,7 +22,7 @@ function App() {
 
   useEffect(() => {
     if (!soundUrl) return;
-    player.load(soundUrl);
+    PLAYER.load(soundUrl);
   }, [soundUrl]);
 
   useEffect(() => {
